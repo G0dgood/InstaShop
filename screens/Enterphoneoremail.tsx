@@ -24,43 +24,9 @@ const Enterphoneoremail = () => {
 	const [selectedIndex4, setIndex4] = React.useState<any>(null);
 	const [selectedIndex5, setIndex5] = React.useState<any>(null);
 	const [next, setNext] = React.useState(1);
-	const [questionaire, setQuestionaire] = useState({
-		allergy: '',
-		allergyDetails: '',
-		chronicDisease: '',
-		chronicDiseaseDetails: '',
-		healthCheckupFrequency: '',
-		healthStatus: '',
-		hereditaryConditions: '',
 
-	});
 
-	const handleCheckBoxPress = (index: number | React.SetStateAction<null>, field: string, value: string) => {
-		switch (field) {
-			case 'healthStatus':
-				setIndex1(index);
-				setQuestionaire({ ...questionaire, healthStatus: value });
-				break;
-			case 'hereditaryConditions':
-				setIndex2(index);
-				setQuestionaire({ ...questionaire, hereditaryConditions: value });
-				break;
-			case 'allergy':
-				setIndex3(index);
-				setQuestionaire({ ...questionaire, allergy: value });
-				break;
-			case 'chronicDisease':
-				setIndex4(index);
-				setQuestionaire({ ...questionaire, chronicDisease: value });
-				break;
-			case 'healthCheckupFrequency':
-				setIndex5(index);
-				setQuestionaire({ ...questionaire, healthCheckupFrequency: value });
-				break;
-			default:
-				break;
-		}
-	};
+
 	useEffect(() => {
 		let count = 0;
 		if (selectedIndex1 !== null) count++;
@@ -71,12 +37,6 @@ const Enterphoneoremail = () => {
 
 	}, [selectedIndex1, selectedIndex2, selectedIndex3, selectedIndex4, selectedIndex5]);
 
-	const handleChange = (input: any, value: any) => {
-		setQuestionaire((prevState: any) => ({
-			...prevState,
-			[input]: value,
-		}));
-	};
 
 
 

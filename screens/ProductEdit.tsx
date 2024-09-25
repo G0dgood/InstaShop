@@ -8,7 +8,7 @@ import { Image } from '../assets/svg/Image'
 import TextInput from '../components/Input/TextInput';
 import Checkbox from 'expo-checkbox';
 import * as Haptics from 'expo-haptics';
-import { BackgroundColor } from '../node_modules/@isaacs/cliui/node_modules/ansi-styles/index.d';
+
 
 
 const ProductEdit = ({ navigation }: any) => {
@@ -24,14 +24,12 @@ const ProductEdit = ({ navigation }: any) => {
 
 	return (
 		<SafeAreaView style={styles.container} >
-			<ScrollView style={styles.container_title}>
+			<ScrollView style={styles.container_title} contentContainerStyle={styles.scrollViewContent}>
 				<View style={styles.MoreVertcontainer}>
-					<View style={styles.arrowBackcontainer}>
-						<TouchableOpacity onPress={handleBack}>
-							<ArrowBack />
-						</TouchableOpacity>
-						<Text style={styles.arrowBackText}>Get started</Text>
-					</View>
+					<TouchableOpacity onPress={handleBack} style={styles.arrowBackcontainer}>
+						<ArrowBack />
+						<Text style={styles.arrowBackText}>Create a product</Text>
+					</TouchableOpacity>
 					<View>
 						<MoreVert />
 					</View>
@@ -71,11 +69,10 @@ const ProductEdit = ({ navigation }: any) => {
 
 					<MarkDown />
 				</View>
-
-				<View style={styles.buttonContainer}>
+				<TouchableOpacity style={styles.buttonContainer}>
 					<Text style={styles.buttonText}>Add image</Text>
 					<Image />
-				</View>
+				</TouchableOpacity>
 
 				<View>
 					<Text style={styles.sectionTitle}>Inventory variations</Text>
@@ -134,7 +131,9 @@ const ProductEdit = ({ navigation }: any) => {
 export default ProductEdit
 
 const styles = StyleSheet.create({
-
+	scrollViewContent: {
+		paddingBottom: 120,
+	},
 	buyNowTextWhite: {
 		width: 47, // Width of the text
 		height: 18, // Height of the text
@@ -251,7 +250,7 @@ const styles = StyleSheet.create({
 
 
 	price_container_price: {
-		width: "50%"
+		width: "48%"
 	},
 	price_container: {
 		flexDirection: 'row',

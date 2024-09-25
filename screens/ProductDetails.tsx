@@ -1,21 +1,20 @@
-
-
-
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
-import { ArrowBack } from '../assets/svg/ArrowBack'
-import { MoreVert } from '../assets/svg/MoreVert'
-import { Mark } from '../assets/svg/Mark'
-import { MarkDown } from '../assets/svg/MarkDown'
-import { X } from '../assets/svg/X'
-import TextInput from '../components/Input/TextInput';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView, Image, Switch } from 'react-native';
+import React, { useState } from 'react';
+import { ArrowBack } from '../assets/svg/ArrowBack';
+import { MoreVert } from '../assets/svg/MoreVert';
+import { Mark } from '../assets/svg/Mark';
+import { MarkDown } from '../assets/svg/MarkDown';
+import { X } from '../assets/svg/X';
 import Checkbox from 'expo-checkbox';
 import * as Haptics from 'expo-haptics';
-import { BackgroundColor } from '../node_modules/@isaacs/cliui/node_modules/ansi-styles/index.d';
+import { More } from '../assets/svg/More'
+import { Image as Images } from '../assets/svg/Image'
 
 
 const ProductDetails = ({ navigation }: any) => {
 	const [isChecked, setChecked] = useState(false);
+	const [isEnabled, setIsEnabled] = useState(true);
+	const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 	const handleBack = () => {
 		navigation.goBack();
 	};
@@ -24,17 +23,42 @@ const ProductDetails = ({ navigation }: any) => {
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
 	};
 
+	// Array representing each section
+	const sections = [
+		{ id: 1, image: require('../assets/frame2.png'), label: 'logo.Img' },
+		{ id: 2, image: require('../assets/frame2.png'), label: 'logo.Img' },
+		{ id: 3, image: require('../assets/frame2.png'), label: 'logo.Img' },
+		{ id: 4, image: require('../assets/frame2.png'), label: 'logo.Img' },
+	];
 
+	const options = [
+		{
+			id: 1,
+			label: 'Option 1',
+			inputText: 'Color',
+			chips: ['Red', 'Small', 'XL'],
+		},
+		{
+			id: 2,
+			label: 'Option 2',
+			inputText: 'Color',
+			chips: ['Large', 'Small', 'XL'],
+		},
+		{
+			id: 3,
+			label: 'Option 3',
+			inputText: 'Color',
+			chips: ['Red', 'White', 'Black'],
+		},
+	];
 	return (
 		<SafeAreaView style={styles.container} >
-			<ScrollView style={styles.container_title}>
+			<ScrollView style={styles.container_title} contentContainerStyle={styles.scrollViewContent}>
 				<View style={styles.MoreVertcontainer}>
-					<View style={styles.arrowBackcontainer}>
-						<TouchableOpacity onPress={handleBack}>
-							<ArrowBack />
-						</TouchableOpacity>
+					<TouchableOpacity onPress={handleBack} style={styles.arrowBackcontainer}>
+						<ArrowBack />
 						<Text style={styles.arrowBackText}>Product details</Text>
-					</View>
+					</TouchableOpacity>
 					<View>
 						<MoreVert />
 					</View>
@@ -45,11 +69,8 @@ const ProductDetails = ({ navigation }: any) => {
 						<Text>Draft</Text>
 						<Mark />
 					</TouchableOpacity>
-
 					<Text style={styles.buyNowText}>Preview product</Text>
 				</View>
-
-
 				<View style={styles.draftContainer2}>
 					<Text style={styles.sectionTitle}>Basic details</Text>
 					<MarkDown />
@@ -77,7 +98,7 @@ const ProductDetails = ({ navigation }: any) => {
 					</View>
 
 					<View style={styles.containerInputOne4}>
-						<Text style={styles.label}>Product Title</Text>
+						<Text style={styles.label}>Product collection</Text>
 						<View style={styles.chipContainerFlex}>
 							<View style={styles.chipContainer}>
 								<Text>Collection</Text>
@@ -91,31 +112,88 @@ const ProductDetails = ({ navigation }: any) => {
 
 						<Text style={styles.inputTextfull}>Search or create collection</Text>
 					</View>
-
 					<View style={styles.containerInputOne}>
-						<Text style={styles.label}>Product Title</Text>
+						<Text style={styles.label}>Inventory stocks</Text>
 						<Text style={styles.inputText}>50</Text>
 					</View>
 				</View>
 
+				<View style={[styles.draftContainer2, styles.up]}>
+					<Text style={styles.sectionTitle}>Product images</Text>
+					<MarkDown />
+				</View>
+				<View style={styles.draftContainerMain}>
+
+					<View style={styles.sectionImagesmainContainer}>
+						{sections.map(section => (
+							<View key={section.id} style={styles.sectionSwitchMain}>
+								<View style={styles.sectionImagesContainer}>
+									<View style={styles.sectionImages}>
+										<Image source={section.image} />
+									</View>
+									<Text style={styles.logoText}>{section.label}</Text>
+								</View>
+
+								<View style={styles.sectionSwitch}>
+									<More />
+									<Switch
+										trackColor={{ false: '#fff', true: '#8A226F' }}
+										thumbColor={isEnabled ? '#fff' : '#fff'}
+										ios_backgroundColor="#3e3e3e"
+										onValueChange={toggleSwitch}
+										value={isEnabled}
+									/>
+								</View>
+							</View>
+						))}
+					</View>
+					<TouchableOpacity style={styles.buttonContainer}>
+						<Text style={styles.buttonText}>Add image</Text>
+						<Images />
+					</TouchableOpacity>
+				</View>
+
 				<View>
-					<View style={styles.draftContainer2}>
-						<Text style={styles.sectionTitle}>Basic details</Text>
-						<MarkDown />
+					<Text style={styles.sectionTitle}>Inventory variations</Text>
+					<View style={styles.ShippingText_container}>
+						<Checkbox
+							style={styles.checkbox}
+							value={isChecked}
+							onValueChange={setChecked}
+							color={isChecked ? '#8A226F' : undefined}
+						/>
+						<Text style={styles.ShippingText}>This product is variable; has different colors, sizes, weight, materials, etc.</Text>
 					</View>
+				</View>
 
-					<View>
-						<View>
-							<View></View>
-							<Text>logo.Img</Text>
+				<View style={styles.inputTextMoreContainer}>
+
+					{options.map(option => (
+						<View key={option.id} style={[styles.containerInputOne5, styles.containerInputSpace]}>
+							<View style={styles.inputTextMore}>
+								<View>
+									<Text style={styles.label}>{option.label}</Text>
+									<Text style={styles.inputText}>{option.inputText}</Text>
+								</View>
+								<More />
+							</View>
+
+							<View style={styles.chipContainerFlex}>
+								{option.chips.map((chip, index) => (
+									<View key={index} style={styles.chipContainer1}>
+										<Text>{chip}</Text>
+										<X />
+									</View>
+								))}
+							</View>
+
+							<Text style={styles.inputTextfull}>Enter values</Text>
 						</View>
-
-
-						<View>
-							<View></View>
-							<View></View>
-						</View>
-					</View>
+					))}
+					<TouchableOpacity style={styles.buttonContainer}>
+						<Text style={styles.buttonText}>Add new option</Text>
+						<Images />
+					</TouchableOpacity>
 				</View>
 
 			</ScrollView>
@@ -140,23 +218,102 @@ export default ProductDetails
 
 const styles = StyleSheet.create({
 
+
+	inputTextMoreContainer: {
+		flexDirection: "column",
+		alignItems: 'center',
+		gap: 20,
+		marginTop: 20,
+	},
+	inputTextMore: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: "space-between"
+	},
+	containerInputSpace: {
+		gap: 15
+	},
+
+	up: {
+		marginTop: 20,
+	},
+	draftContainerMain: {
+		gap: 15,
+	},
+	sectionImagesmainContainer: {
+		gap: 15,
+	},
+
+	scrollViewContent: {
+		paddingBottom: 120,
+	},
+
+	logoText: {
+		fontFamily: 'DM Sans',
+		fontStyle: 'normal',
+		fontWeight: '400',
+		fontSize: 14,
+		lineHeight: 18,
+		letterSpacing: 0.005,
+	},
+
+	sectionSwitchMain: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: "space-between",
+	},
+	sectionSwitch: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+	},
+	sectionImagesContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+	},
+
+	sectionImages: {
+		width: 60,
+		height: 60,
+		backgroundColor: 'rgba(0, 0, 0, 0.03)',
+		borderRadius: 8,
+	},
+
 	chipContainerFlex: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 8,
 	},
 
+	chipContainer1: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingHorizontal: 4,
+		paddingVertical: 2,
+		width: 65,
+		height: 22,
+		backgroundColor: 'rgba(0, 0, 0, 0.03)',
+		borderRadius: 90,
+		shadowColor: 'rgba(0, 0, 0, 0.03)',
+		shadowOpacity: 1,
+		shadowRadius: 0,
+		elevation: 1,
+		gap: 5,
+		padding: 5,
+	},
 	chipContainer: {
-		flexDirection: 'row', // Flex direction row
-		justifyContent: 'center', // Center content horizontally
-		alignItems: 'center', // Center content vertically
-		paddingHorizontal: 4, // Padding 4px on the sides
-		paddingVertical: 2, // Padding 2px top and bottom
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingHorizontal: 4,
+		paddingVertical: 2,
 		width: 90,
 		height: 22,
-		backgroundColor: 'rgba(0, 0, 0, 0.03)',  // Background color
-		borderRadius: 90, // Rounded corners
-		shadowColor: 'rgba(0, 0, 0, 0.03)', // Shadow to mimic linear gradient effect
+		backgroundColor: 'rgba(0, 0, 0, 0.03)',
+		borderRadius: 90,
+		shadowColor: 'rgba(0, 0, 0, 0.03)',
 		shadowOpacity: 1,
 		shadowRadius: 0,
 		elevation: 1,
@@ -164,7 +321,7 @@ const styles = StyleSheet.create({
 		padding: 5,
 	},
 	label: {
-		width: 60,
+		width: 100,
 		height: 13,
 		fontFamily: 'DM Sans',
 		fontStyle: 'normal',
@@ -178,33 +335,33 @@ const styles = StyleSheet.create({
 	inputTextfull: {
 		width: 308,
 		height: 18,
-		fontFamily: 'DM Sans', // Ensure the font is loaded
+		fontFamily: 'DM Sans',
 		fontStyle: 'normal',
-		fontWeight: '500', // Bold styling (medium in this case)
+		fontWeight: '500',
 		fontSize: 14,
-		lineHeight: 18, // Matches height
-		letterSpacing: 0.005, // Slight letter spacing
+		lineHeight: 18,
+		letterSpacing: 0.005,
 		alignSelf: 'stretch',
 		color: "#00000099",
 	},
 	inputText: {
 		width: 308,
 		height: 18,
-		fontFamily: 'DM Sans', // Ensure the font is loaded
+		fontFamily: 'DM Sans',
 		fontStyle: 'normal',
-		fontWeight: '500', // Bold styling (medium in this case)
+		fontWeight: '500',
 		fontSize: 14,
-		lineHeight: 18, // Matches height
-		letterSpacing: 0.005, // Slight letter spacing
-		alignSelf: 'stretch', // Align self stretch to fill container's available width
-		flexGrow: 0, // Prevent from growing in the layout
+		lineHeight: 18,
+		letterSpacing: 0.005,
+		alignSelf: 'stretch',
+		flexGrow: 0,
 	},
 
 	containerInputOneSub3: {
 		flexDirection: "column",
 		paddingHorizontal: 16,
 		paddingVertical: 8,
-		gap: 4, // Gap between elements (for React Native >= 0.70)
+		gap: 4,
 		width: '100%',
 		height: 68,
 		borderRadius: 12,
@@ -218,6 +375,17 @@ const styles = StyleSheet.create({
 		gap: 4, // Gap between elements (for React Native >= 0.70)
 		width: '48%',
 		height: 52,
+		borderRadius: 12,
+		borderWidth: 1,
+		borderColor: "#00000033",
+	},
+	containerInputOne5: {
+		flexDirection: "column",
+		paddingHorizontal: 16,
+		paddingVertical: 8,
+		gap: 4, // Gap between elements (for React Native >= 0.70)
+		width: '100%',
+		height: 122,
 		borderRadius: 12,
 		borderWidth: 1,
 		borderColor: "#00000033",
@@ -247,22 +415,21 @@ const styles = StyleSheet.create({
 	},
 
 	buyNowTextWhite: {
-		width: 47, // Width of the text
-		height: 18, // Height of the text
-		fontFamily: 'DM Sans', // Font family
-		fontStyle: 'normal', // Font style
-		fontWeight: '500', // Font weight
-		fontSize: 14, // Font size
-		lineHeight: 18, // Line height
-		letterSpacing: 0.005, // Letter spacing
-		color: '#8A226F', // Text color
+		width: 47,
+		height: 18,
+		fontFamily: 'DM Sans',
+		fontStyle: 'normal',
+		fontWeight: '500',
+		fontSize: 14,
+		lineHeight: 18,
+		letterSpacing: 0.005,
+		color: '#8A226F',
 
 	},
 	buttonTwo: {
-		display: 'flex', // Flexbox layout
-		flexDirection: 'row', // Horizontal alignment
-		justifyContent: 'center', // Center the content horizontally
-		alignItems: 'center', // Center the content vertically
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 10,
 		width: 159,
 		height: 40,
@@ -272,10 +439,10 @@ const styles = StyleSheet.create({
 		backgroundColor: "#8A226F"
 	},
 	buttonOne: {
-		display: 'flex', // Flexbox layout
-		flexDirection: 'row', // Horizontal alignment
-		justifyContent: 'center', // Center the content horizontally
-		alignItems: 'center', // Center the content vertically
+
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		padding: 10,
 		width: 159,
 		height: 40,
@@ -354,9 +521,9 @@ const styles = StyleSheet.create({
 	},
 
 	buttonText: {
-		fontFamily: 'DM Sans', // Ensure this font is linked correctly
-		fontSize: 14, // Adjust font size as necessary
-		color: '#8A226F', // Text color
+		fontFamily: 'DM Sans',
+		fontSize: 14,
+		color: '#8A226F',
 	},
 
 
@@ -375,7 +542,7 @@ const styles = StyleSheet.create({
 	},
 	sectionTitlesub: {
 		height: 18,
-		fontFamily: 'DM Sans',  // Ensure you have the font properly linked
+		fontFamily: 'DM Sans',
 		fontStyle: 'normal',
 		fontWeight: '500',  // Bold
 		fontSize: 14,
@@ -385,7 +552,7 @@ const styles = StyleSheet.create({
 	},
 	sectionTitle: {
 		height: 18,
-		fontFamily: 'DM Sans',  // Ensure you have the font properly linked
+		fontFamily: 'DM Sans',
 		fontStyle: 'normal',
 		fontWeight: '500',  // Bold
 		fontSize: 14,
