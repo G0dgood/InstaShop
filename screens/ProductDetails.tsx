@@ -9,10 +9,13 @@ import Checkbox from 'expo-checkbox';
 import * as Haptics from 'expo-haptics';
 import { More } from '../assets/svg/More'
 import { Image as Images } from '../assets/svg/Image'
+import { Plus } from '../assets/svg/Plus';
+import { Ellipse } from '../assets/svg/Ellipse';
+import { AddPhotoAlternate } from '../assets/svg/AddPhotoAlternate';
 
 
 const ProductDetails = ({ navigation }: any) => {
-	const [isChecked, setChecked] = useState(false);
+	const [isChecked, setChecked] = useState(true);
 	const [isEnabled, setIsEnabled] = useState(true);
 	const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 	const handleBack = () => {
@@ -190,12 +193,81 @@ const ProductDetails = ({ navigation }: any) => {
 							<Text style={styles.inputTextfull}>Enter values</Text>
 						</View>
 					))}
-					<TouchableOpacity style={styles.buttonContainer}>
-						<Text style={styles.buttonText}>Add new option</Text>
-						<Images />
-					</TouchableOpacity>
 				</View>
 
+				<TouchableOpacity style={[styles.buttonContainer, styles.Addimage]}>
+					<Plus />
+					<Text style={styles.buttonText}>Add new option</Text>
+				</TouchableOpacity>
+
+				<View style={styles.draftContainer2}>
+					<Text style={styles.sectionTitle}>Configure variant prices and stocks</Text>
+
+					<MarkDown />
+				</View>
+
+				<View style={styles.fieldTextMain}>
+					<View style={styles.productImageContainerMain}>
+						<View style={styles.productImageContainer}>
+							<View style={styles.productImage}>
+								<AddPhotoAlternate />
+							</View>
+							<View>
+								<Text style={styles.ellipse_containerTopText}>Red - L - leather</Text>
+								<View style={styles.ellipse_container}>
+									<Text style={styles.fieldText}>₦20</Text><Ellipse /><Text style={styles.fieldText}>20X</Text>
+								</View>
+							</View>
+						</View>
+
+						<More />
+					</View>
+					<View style={styles.productImageContainerMain}>
+						<View style={styles.productImageContainer}>
+							<View style={styles.productImage}>
+								<AddPhotoAlternate />
+							</View>
+							<View>
+								<Text style={styles.ellipse_containerTopText}>Red - L - leather</Text>
+								<View style={styles.ellipse_container}>
+									<Text style={styles.fieldText}>₦20</Text><Ellipse /><Text style={styles.fieldText}>20X</Text>
+								</View>
+							</View>
+						</View>
+
+						<More />
+					</View>
+					<View style={styles.productImageContainerMain}>
+						<View style={styles.productImageContainer}>
+							<View style={styles.productImage}>
+								<AddPhotoAlternate />
+							</View>
+							<View>
+								<Text style={styles.ellipse_containerTopText}>Red - L - leather</Text>
+								<View style={styles.ellipse_container}>
+									<Text style={styles.fieldText}>₦20</Text><Ellipse /><Text style={styles.fieldText}>20X</Text>
+								</View>
+							</View>
+						</View>
+
+						<More />
+					</View>
+					<View style={styles.productImageContainerMain}>
+						<View style={styles.productImageContainer}>
+							<View style={styles.productImage}>
+								<AddPhotoAlternate />
+							</View>
+							<View>
+								<Text style={styles.ellipse_containerTopText}>Red - L - leather</Text>
+								<View style={styles.ellipse_container}>
+									<Text style={styles.fieldText}>₦20</Text><Ellipse /><Text style={styles.fieldText}>20X</Text>
+								</View>
+							</View>
+						</View>
+
+						<More />
+					</View>
+				</View>
 			</ScrollView>
 			<View style={styles.container_back_next}>
 				<TouchableOpacity
@@ -218,6 +290,59 @@ export default ProductDetails
 
 const styles = StyleSheet.create({
 
+	fieldTextMain: {
+		gap: 20
+	},
+
+	productImageContainerMain: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: "space-between"
+	},
+	fieldText: {
+		width: 23,
+		height: 16,
+		fontFamily: 'DM Sans',  // Ensure the font is loaded or linked correctly
+		fontStyle: 'normal',
+		fontWeight: '400',  // Normal weight
+		fontSize: 12,
+		lineHeight: 16,
+		letterSpacing: 0.005,              // 'order' isn't supported directly in React Native
+	},
+
+	productImageContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 10,
+	},
+	productImage: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: "center",
+		backgroundColor: "#0000000D",
+		width: 40,
+		height: 40,
+		borderRadius: 5.33,
+	},
+
+	ellipse_containerTopText: {
+		fontFamily: 'DM Sans',  // Make sure you have this font installed or loaded
+		fontStyle: 'normal',
+		fontWeight: '400',  // Normal weight
+		fontSize: 14,
+		lineHeight: 18,
+		letterSpacing: 0.005,
+	},
+
+	ellipse_container: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: 8,
+	},
+
+	Addimage: {
+		marginTop: 20,
+	},
 
 	inputTextMoreContainer: {
 		flexDirection: "column",
